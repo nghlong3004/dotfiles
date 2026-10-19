@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)"
+source_file="$repo_root/starship/starship.toml"
+config_root="${XDG_CONFIG_HOME:-$HOME/.config}"
+state_root="${XDG_STATE_HOME:-$HOME/.local/state}"
+[[ "$config_root" == /* ]] || config_root="$HOME/.config"
+[[ "$state_root" == /* ]] || state_root="$HOME/.local/state"
+target_file="$config_root/starship.toml"
+
+if [[ ! -f "$source_file" ]]; then
+    printf 'Missing source: %s\n' "$source_file" >&2
+    exit 1
+fi
+
+if [[ -L "$target_file" && "$target_file" -ef "$source_file" ]]; then
+    printf 'Already installed: %s -> %s\n' "$target_file" "$source_file"
+    exit 0
+fi
+
+if [[ -d "$target_file" && ! -L "$target_file" ]]; then
+    printf 'Refusing to replace a directory: %s\n' "$target_file" >&2
+    exit 1
+fi
+
+mkdir -p -- "$config_root"
+staging_dir="$(mktemp -d "$config_root/.dotfiles-install.XXXXXX")"
+cleanup() {
+    rm -f -- "$staging_dir/starship.toml"
+    rmdir -- "$staging_dir"
+}
+trap cleanup EXIT
+ln -s -- "$source_file" "$staging_dir/starship.toml"
+
+backup_dir=""
+if [[ -e "$target_file" || -L "$target_file" ]]; then
+    backup_root="$state_root/dotfiles/backups"
+    mkdir -p -- "$backup_root"
+    backup_dir="$(mktemp -d "$backup_root/$(date -u +%Y%m%dT%H%M%SZ)-XXXXXX")"
+    cp -a -- "$target_file" "$backup_dir/starship.toml"
+    printf 'Backup: %s\n' "$backup_dir/starship.toml"
+fi
+
+# Atomic replacement: the existing config stays in place until the link is ready.
+mv -Tf -- "$staging_dir/starship.toml" "$target_file"
+printf 'Installed: %s -> %s\n' "$target_file" "$source_file"

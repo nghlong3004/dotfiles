@@ -1,0 +1,290 @@
+"$schema" = "https://starship.rs/config-schema.json"
+
+command_timeout = 1500
+add_newline = false
+
+format = """
+$os\
+($username$hostname )\
+$directory\
+( $git_branch$git_commit$git_state$git_status)\
+$cmd_duration \
+$bun\
+$c\
+$cpp\
+$crystal\
+$dart\
+$docker_context\
+$dotnet\
+$elixir\
+$golang\
+$gradle\
+$haskell\
+$java\
+$kotlin\
+$lua\
+$nodejs\
+$php\
+$python\
+$ruby\
+$rust\
+$swift\
+$zig\
+$character"""
+
+right_format = "$time"
+
+palette = "ccswe_dark"
+
+[palettes.ccswe_dark]
+# Blue: location; white/gray: context; green/yellow/red: status.
+# The OS logo keeps its own brand color.
+color_blue = "#7aa2f7"
+color_gray = "#8b93a7"
+color_white = "#c0caf5"
+color_green = "#9ece6a"
+color_yellow = "#e0af68"
+color_red = "#f7768e"
+
+[character]
+disabled = false
+success_symbol = '[](bold fg:color_white)'
+error_symbol = '[](bold fg:color_red)'
+vimcmd_symbol = '[](bold fg:color_white)'
+vimcmd_replace_one_symbol = '[](bold fg:color_yellow)'
+vimcmd_replace_symbol = '[](bold fg:color_yellow)'
+vimcmd_visual_symbol = '[](bold fg:color_yellow)'
+[cmd_duration]
+format = " [$duration](fg:color_gray)"
+min_time = 2000
+
+[directory]
+style = "bold fg:color_blue"
+format = "[$path]($style)[$read_only]($read_only_style)"
+truncation_length = 3
+truncation_symbol = "…/"
+truncate_to_repo = false
+read_only = " ro"
+read_only_style = "fg:color_yellow"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+
+[git_branch]
+symbol = ""
+style = "fg:color_white"
+format = "[$symbol $branch]($style)"
+only_attached = true
+
+[git_commit]
+format = "[@$hash]($style)"
+style = "fg:color_white"
+only_detached = true
+commit_hash_length = 7
+
+[git_state]
+format = '[ $state( $progress_current/$progress_total)]($style)'
+style = "fg:color_yellow"
+
+[git_status]
+# Counts are status entries per category, not changed lines or unique totals.
+# An untracked directory may count as one entry even when it contains files.
+# Routine changes are amber; staged changes green; conflicts red.
+conflicted = '[ =${count}](bold fg:color_red)'
+staged = '[ +${count}](fg:color_green)'
+modified = " !${count}"
+untracked = " ?${count}"
+renamed = " »${count}"
+deleted = " -${count}"
+# On 1.22.1 a staged file-to-symlink change may render as staged (+), not ~.
+typechanged = " ~${count}"
+stashed = " ≡${count}"
+ahead = " ⇡${count}"
+behind = " ⇣${count}"
+diverged = " ⇕⇡${ahead_count}⇣${behind_count}"
+format = '[($all_status$ahead_behind)]($style)'
+style = "fg:color_yellow"
+
+[hostname]
+format = "[@$hostname]($style)"
+ssh_only = true
+ssh_symbol = " "
+style = "fg:color_gray"
+
+[os]
+format = "[$symbol]($style)"
+style = "fg:#E95420"
+disabled = false
+
+[username]
+disabled = false
+format = "[$user]($style)"
+show_always = true
+style_root = "bold fg:color_red"
+style_user = "fg:color_gray"
+
+# Code symbols: brand hues on icons; versions and environment names stay neutral.
+# Multicolor marks use one representative hue. C++/Haskell/Lua use lighter
+# logo shades for dark terminals; Crystal/Gradle/Rust use white logo variants.
+[bun]
+format = '[$symbol]($style)( [$version](fg:color_white)) '
+style = "fg:#FBF0DF"
+symbol = ""
+
+[c]
+format = '[$symbol]($style) '
+style = "fg:#A8B9CC"
+symbol = ""
+
+[cpp]
+# Inactive on Starship 1.22.1, which has no cpp module.
+format = '[$symbol]($style) '
+style = "fg:#659AD2"
+symbol = ""
+
+[crystal]
+format = '[$symbol]($style)( [$version](fg:color_white)) '
+style = "fg:#FFFFFF"
+symbol = ""
+
+[dart]
+format = '[$symbol]($style)( [$version](fg:color_white)) '
+style = "fg:#0175C2"
+symbol = ""
+
+[docker_context]
+format = '[$symbol]($style)( [$context](fg:color_white)) '
+style = "fg:#1D63ED"
+symbol = ""
+
+[dotnet]
+format = '[$symbol]($style) '
+style = "fg:#512BD4"
+symbol = ""
+
+[elixir]
+format = '[$symbol]($style)( [$version](fg:color_white)) '
+style = "fg:#9B68B3"
+symbol = ""
+
+[golang]
+format = '[$symbol]($style)( [$version](fg:color_white)) '
+style = "fg:#00ADD8"
+symbol = ""
+
+[gradle]
+format = '[$symbol]($style)( [$version](fg:color_white)) '
+style = "fg:#FFFFFF"
+symbol = ""
+
+[haskell]
+format = '[$symbol]($style)( [$version](fg:color_white)) '
+style = "fg:#9D8BC1"
+symbol = ""
+
+[java]
+format = '[$symbol]($style) '
+style = "fg:#ED8B00"
+symbol = ""
+
+[kotlin]
+format = '[$symbol]($style) '
+style = "fg:#7F52FF"
+symbol = ""
+
+[lua]
+format = '[$symbol]($style)( [$version](fg:color_white)) '
+style = "fg:#6D7FCC"
+symbol = ""
+
+[nodejs]
+format = '[$symbol]($style)( [$version](fg:color_white)) '
+style = "fg:#5FA04E"
+symbol = ""
+
+[php]
+format = '[$symbol]($style)( [$version](fg:color_white)) '
+style = "fg:#777BB4"
+symbol = ""
+
+[python]
+format = '[$symbol]($style)( [$version](fg:color_white))( [$virtualenv](fg:color_white)) '
+style = "fg:#FFD43B"
+symbol = ""
+
+[ruby]
+format = '[$symbol]($style)( [$version](fg:color_white)) '
+style = "fg:#CC342D"
+symbol = ""
+
+[rust]
+format = '[$symbol]($style)( [$version](fg:color_white)) '
+style = "fg:#FFFFFF"
+
+[swift]
+format = '[$symbol]($style)( [$version](fg:color_white)) '
+style = "fg:#F05138"
+symbol = ""
+
+[zig]
+format = '[$symbol]($style)( [$version](fg:color_white)) '
+style = "fg:#F7A41D"
+symbol = ""
+
+# OS Symbols
+[os.symbols]
+Alpaquita = " "
+Alpine = " "
+AlmaLinux = " "
+Amazon = " "
+Android = " "
+Arch = " "
+Artix = " "
+CentOS = " "
+Debian = " "
+DragonFly = " "
+Emscripten = " "
+EndeavourOS = " "
+Fedora = " "
+FreeBSD = " "
+Garuda = "󰛓 "
+Gentoo = " "
+HardenedBSD = "󰞌 "
+Illumos = "󰈸 "
+Kali = " "
+Linux = " "
+Mabox = " "
+Macos = " "
+Manjaro = " "
+Mariner = " "
+MidnightBSD = " "
+Mint = " "
+NetBSD = " "
+NixOS = " "
+OpenBSD = "󰈺 "
+openSUSE = " "
+OracleLinux = "󰌷 "
+Pop = " "
+Raspbian = " "
+Redhat = " "
+RedHatEnterprise = " "
+RockyLinux = " "
+Redox = "󰀘 "
+Solus = "󰠳 "
+SUSE = " "
+Ubuntu = " "
+Unknown = " "
+Void = " "
+Windows = "󰍲 "
+
+[line_break]
+disabled = true
+
+[time]
+disabled = false
+time_format = "%R" # Hour:Minute
+style = "fg:color_gray"
+format = "[$time]($style)"
