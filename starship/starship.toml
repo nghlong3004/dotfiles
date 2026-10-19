@@ -11,7 +11,6 @@ $directory\
 $cmd_duration \
 $bun\
 $c\
-$cpp\
 $crystal\
 $dart\
 $docker_context\
@@ -127,7 +126,7 @@ style_root = "bold fg:color_red"
 style_user = "fg:color_gray"
 
 # Code symbols: brand hues on icons; versions and environment names stay neutral.
-# Multicolor marks use one representative hue. C++/Haskell/Lua use lighter
+# Multicolor marks use one representative hue. Haskell/Lua use lighter
 # logo shades for dark terminals; Crystal/Gradle/Rust use white logo variants.
 [bun]
 format = '[$symbol]($style)( [$version](fg:color_white)) '
@@ -138,12 +137,6 @@ symbol = ""
 format = '[$symbol]($style) '
 style = "fg:#A8B9CC"
 symbol = ""
-
-[cpp]
-# Inactive on Starship 1.22.1, which has no cpp module.
-format = '[$symbol]($style) '
-style = "fg:#659AD2"
-symbol = ""
 
 [crystal]
 format = '[$symbol]($style)( [$version](fg:color_white)) '

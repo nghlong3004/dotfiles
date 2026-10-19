@@ -65,7 +65,7 @@ source .venv/bin/activate
 ```
 
 uv và các ngôn ngữ được cài riêng. Repo không chứa môi trường `.venv`.
-Cấu hình đã được kiểm tra với Starship 1.22.1; mục `cpp` chưa hoạt động trên bản này.
+Cấu hình đã được kiểm tra với Starship 1.22.1. Bản này chưa hỗ trợ module `cpp`, nên cấu hình không khai báo module đó.
 Logo OS hiện dùng màu Ubuntu cố định; đổi `[os].style` nếu muốn phối màu cho OS khác.
 
 ## Khôi phục
