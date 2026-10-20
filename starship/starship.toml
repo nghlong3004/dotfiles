@@ -9,29 +9,33 @@ $os\
 $directory\
 ( $git_branch$git_commit$git_state$git_status)\
 $cmd_duration \
+$docker_context\
+$character"""
+
+right_format = """
 $bun\
 $c\
 $crystal\
 $dart\
-$docker_context\
 $dotnet\
 $elixir\
 $golang\
 $gradle\
 $haskell\
 $java\
+${custom.maven}\
 $kotlin\
 $lua\
 $nodejs\
+${custom.pnpm}\
 $php\
 $python\
+${custom.uv}\
 $ruby\
 $rust\
 $swift\
 $zig\
-$character"""
-
-right_format = "$time"
+$time"""
 
 palette = "ccswe_dark"
 
@@ -126,25 +130,30 @@ style_root = "bold fg:color_red"
 style_user = "fg:color_gray"
 
 # Code symbols: brand hues on icons; versions and environment names stay neutral.
+# Node/Java/compiler versions use major; other versions use major.minor.
 # Multicolor marks use one representative hue. Haskell/Lua use lighter
 # logo shades for dark terminals; Crystal/Gradle/Rust use white logo variants.
 [bun]
 format = '[$symbol]($style)( [$version](fg:color_white)) '
+version_format = '${major}.${minor}'
 style = "fg:#FBF0DF"
 symbol = ""
 
 [c]
-format = '[$symbol]($style) '
+format = '[$symbol]($style)( [$version](fg:color_white)) '
+version_format = '${major}'
 style = "fg:#A8B9CC"
 symbol = ""
 
 [crystal]
 format = '[$symbol]($style)( [$version](fg:color_white)) '
+version_format = '${major}.${minor}'
 style = "fg:#FFFFFF"
 symbol = ""
 
 [dart]
 format = '[$symbol]($style)( [$version](fg:color_white)) '
+version_format = '${major}.${minor}'
 style = "fg:#0175C2"
 symbol = ""
 
@@ -154,78 +163,121 @@ style = "fg:#1D63ED"
 symbol = ""
 
 [dotnet]
-format = '[$symbol]($style) '
+format = '[$symbol]($style)( [$version](fg:color_white)) '
+version_format = '${major}.${minor}'
 style = "fg:#512BD4"
 symbol = ""
 
 [elixir]
 format = '[$symbol]($style)( [$version](fg:color_white)) '
+version_format = '${major}.${minor}'
 style = "fg:#9B68B3"
 symbol = ""
 
 [golang]
 format = '[$symbol]($style)( [$version](fg:color_white)) '
+version_format = '${major}.${minor}'
 style = "fg:#00ADD8"
 symbol = ""
 
 [gradle]
 format = '[$symbol]($style)( [$version](fg:color_white)) '
+version_format = '${major}.${minor}'
 style = "fg:#FFFFFF"
 symbol = ""
 
 [haskell]
 format = '[$symbol]($style)( [$version](fg:color_white)) '
+version_format = '${major}.${minor}'
 style = "fg:#9D8BC1"
 symbol = ""
 
 [java]
-format = '[$symbol]($style) '
+format = '[$symbol]($style)( [$version](fg:color_white)) '
+version_format = '${major}'
 style = "fg:#ED8B00"
 symbol = ""
 
 [kotlin]
-format = '[$symbol]($style) '
+format = '[$symbol]($style)( [$version](fg:color_white)) '
+version_format = '${major}.${minor}'
 style = "fg:#7F52FF"
 symbol = ""
 
 [lua]
 format = '[$symbol]($style)( [$version](fg:color_white)) '
+version_format = '${major}.${minor}'
 style = "fg:#6D7FCC"
 symbol = ""
 
 [nodejs]
 format = '[$symbol]($style)( [$version](fg:color_white)) '
+version_format = '${major}'
 style = "fg:#5FA04E"
 symbol = ""
 
 [php]
 format = '[$symbol]($style)( [$version](fg:color_white)) '
+version_format = '${major}.${minor}'
 style = "fg:#777BB4"
 symbol = ""
 
 [python]
 format = '[$symbol]($style)( [$version](fg:color_white))( [$virtualenv](fg:color_white)) '
+version_format = '${major}.${minor}'
 style = "fg:#FFD43B"
 symbol = ""
 
 [ruby]
 format = '[$symbol]($style)( [$version](fg:color_white)) '
+version_format = '${major}.${minor}'
 style = "fg:#CC342D"
 symbol = ""
 
 [rust]
 format = '[$symbol]($style)( [$version](fg:color_white)) '
+version_format = '${major}.${minor}'
 style = "fg:#FFFFFF"
 
 [swift]
 format = '[$symbol]($style)( [$version](fg:color_white)) '
+version_format = '${major}.${minor}'
 style = "fg:#F05138"
 symbol = ""
 
 [zig]
 format = '[$symbol]($style)( [$version](fg:color_white)) '
+version_format = '${major}.${minor}'
 style = "fg:#F7A41D"
 symbol = ""
+
+# Starship 1.22.1 has no built-in uv, pnpm, or Maven module.
+[custom.uv]
+description = "uv version"
+detect_files = ["uv.lock"]
+command = """uv --version 2>/dev/null | awk '$1 == "uv" && $2 ~ /^[0-9]+[.][0-9]+/ { split($2, v, "."); print v[1] "." v[2]; exit }'"""
+shell = ["sh"]
+format = '([$symbol]($style) [$output](fg:color_white) )'
+style = "fg:#DE5FE9"
+symbol = "uv"
+
+[custom.pnpm]
+description = "pnpm version"
+detect_files = ["pnpm-lock.yaml"]
+command = """COREPACK_ENABLE_NETWORK=0 pnpm --version 2>/dev/null | awk '/^[0-9]+[.][0-9]+/ { split($0, v, "."); print v[1]; exit }'"""
+shell = ["sh"]
+format = '([$symbol]($style) [$output](fg:color_white) )'
+style = "fg:#F69220"
+symbol = ""
+
+[custom.maven]
+description = "Maven version"
+detect_files = ["pom.xml"]
+command = """mvn --version -Dstyle.color=never 2>/dev/null | awk '$1 == "Apache" && $2 == "Maven" && $3 ~ /^[0-9]+[.][0-9]+/ { split($3, v, "."); print v[1] "." v[2]; exit }'"""
+shell = ["sh"]
+format = '([$symbol]($style) [$output](fg:color_white) )'
+style = "fg:#C71A36"
+symbol = ""
 
 # OS Symbols
 [os.symbols]

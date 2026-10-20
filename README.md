@@ -57,10 +57,12 @@ nếu đổi chỗ repo, chạy lại `scripts/install` ở vị trí mới.
 
 Sửa `starship/starship.toml` trong repo; symlink làm thay đổi có hiệu lực trực tiếp.
 
-- Prompt một dòng, không có khối nền; bên phải chỉ có giờ `HH:MM`.
+- Prompt một dòng, không có khối nền; bên phải là logo ngôn ngữ, phiên bản và giờ `HH:MM`.
 - Logo OS màu cam; đường dẫn xanh; Git dùng màu trạng thái.
 - Logo công nghệ dùng màu nhận diện; phiên bản và tên môi trường dùng màu trung tính.
 - Module ngôn ngữ xuất hiện tùy project và công cụ đã cài.
+- Phiên bản gọn, bỏ tiền tố `v`: Python và phần lớn công cụ dùng `major.minor`; Node, Java và compiler C dùng `major` (ví dụ ` 3.12`, ` 24`, ` 25`).
+- Bên phải có thêm uv (`uv 0.13`) khi có `uv.lock`, pnpm (` 12`) khi có `pnpm-lock.yaml`, và Maven (` 3.10`) khi có `pom.xml`. Đây là phiên bản công cụ đang dùng, không phải phiên bản package/project; thiếu công cụ thì ẩn mục đó.
 - Môi trường Python đang kích hoạt được hiển thị, kể cả `.venv` do uv tạo:
 
 ```sh
