@@ -1,14 +1,17 @@
 # Dotfiles
 
-Cấu hình cá nhân cho Linux và WSL. Hiện repo quản lý Starship; có thể clone vào bất kỳ thư mục nào.
+Cấu hình cá nhân cho Linux và WSL. Hiện repo lưu cấu hình Zsh và quản lý Starship; có thể clone vào bất kỳ thư mục nào.
 
 ## Cấu trúc
 
 ```text
 dotfiles/
+├── .zshrc
 ├── starship/starship.toml
 └── scripts/install
 ```
+
+`.zshrc` là bản sao cấu hình shell hiện tại. Script cài đặt bên dưới chỉ quản lý Starship.
 
 ## Yêu cầu
 
